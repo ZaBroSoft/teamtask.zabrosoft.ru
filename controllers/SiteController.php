@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\SignUpForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,6 +13,13 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+
+    private function isAuth()
+    {
+        if (Yii::$app->user->isGuest){
+            return $this->redirect(['login']);
+        }
+    }
     /**
      * {@inheritdoc}
      */
@@ -20,19 +28,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'contact'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'contact'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -61,10 +63,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest){
-            return $this->redirect(['login']);
-        }
-        return $this->render('index');
+        return $this->redirect(['about']);
     }
 
     /**
@@ -75,12 +74,12 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['index']);
+            return $this->redirect(['task/index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['task/index']);
         }
 
         $model->password = '';
@@ -98,7 +97,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['login']);
     }
 
     /**
@@ -127,5 +126,20 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionSignup()
+    {
+        $model = new SignUpForm();
+
+        if ($model->load(Yii::$app->request->post())){
+            if ($user = $model->signup()){
+                if (Yii::$app->getUser()->login($user)){
+                    return $this->redirect(['task/index']);
+                }
+            }
+        }
+
+        return $this->render('signup', ['model' => $model]);
     }
 }

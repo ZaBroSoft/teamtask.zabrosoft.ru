@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Авторизация';
+$this->title = 'Регистрация';
 ?>
 
 <div class="row">
@@ -21,6 +21,7 @@ $this->title = 'Авторизация';
                 <?php $form = ActiveForm::begin(); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'email')->textInput() ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
@@ -28,12 +29,12 @@ $this->title = 'Авторизация';
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="col-lg-offset-1 col-lg-11">
-                                <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                                <?= Html::submitButton('Регистрация', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="<?= \yii\helpers\Url::to(['signup']) ?>" class="btn btn-link">Регистрация</a>
+                        <a href="<?= \yii\helpers\Url::to(['login']) ?>" class="btn btn-link">Авторизация</a>
                     </div>
                 </div>
 
