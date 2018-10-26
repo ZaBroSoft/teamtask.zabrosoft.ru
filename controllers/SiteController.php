@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\SignUpForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,6 +13,13 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+
+    private function isAuth()
+    {
+        if (Yii::$app->user->isGuest){
+            return $this->redirect(['login']);
+        }
+    }
     /**
      * {@inheritdoc}
      */
@@ -61,9 +69,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest){
-            return $this->redirect(['login']);
-        }
+        $this->isAuth();
         return $this->render('index');
     }
 
@@ -108,6 +114,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->isAuth();
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -126,6 +133,22 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $this->isAuth();
         return $this->render('about');
+    }
+
+    public function actionSignup()
+    {
+        $model = new SignUpForm();
+
+        if ($model->load(Yii::$app->request->post())){
+            if ($user = $model->signup()){
+                if (Yii::$app->getUser()->login($user)){
+                    return $this->redirect(['index']);
+                }
+            }
+        }
+
+        return $this->render('signup', ['model' => $model]);
     }
 }
