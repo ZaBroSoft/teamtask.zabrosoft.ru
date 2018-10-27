@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
+use vova07\imperavi\Widget;
 
 ?>
 
@@ -18,7 +19,17 @@ use yii\bootstrap\ActiveForm;
 
                 <?= $form->field($model, 'title')->textInput() ?>
                 <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
-                <?= $form->field($model, 'content')->textarea(['rows' => 10]) ?>
+                <?= $form->field($model, 'content')->textarea()->widget(Widget::className(), [
+                    'settings' => [
+                        'lang' => 'ru',
+                        'minHeight' => 300,
+                        'plugins' => [
+                            'clips',
+                            'fullscreen',
+                        ],
+                    ],
+                ]);
+                ?>
 
                 <div class="text-right">
                     <?= \yii\bootstrap\Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
