@@ -2,6 +2,7 @@
 
 use yii\bootstrap\ActiveForm;
 use vova07\imperavi\Widget;
+use yii\captcha\Captcha;
 
 ?>
 
@@ -17,7 +18,7 @@ use vova07\imperavi\Widget;
                 </div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'title')->textInput() ?>
+                <?= $form->field($model, 'title')->textInput()?>
                 <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
                 <?= $form->field($model, 'content')->textarea()->widget(Widget::className(), [
                     'settings' => [

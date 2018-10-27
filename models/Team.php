@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\teams\TeamUser;
 use Yii;
 
 /**
@@ -57,5 +58,11 @@ class Team extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])
+            ->viaTable('team_user', ['team_id' => 'id']);
     }
 }

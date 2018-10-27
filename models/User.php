@@ -143,4 +143,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
+
+    public function getTeams()
+    {
+        return $this->hasMany(Team::className(), ['id' => 'team_id'])
+            ->viaTable('team_user', ['user_id' => 'id']);
+    }
+
+    public function getUserTeams()
+    {
+        return $this->hasMany(Team::className(), ['user_id' => 'id']);
+    }
 }
