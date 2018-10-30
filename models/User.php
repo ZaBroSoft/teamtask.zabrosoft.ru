@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\teams\RequestAddToTeam;
 use Yii;
 use yii\web\IdentityInterface;
 
@@ -153,5 +154,16 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getUserTeams()
     {
         return $this->hasMany(Team::className(), ['user_id' => 'id']);
+    }
+
+    public function getRequestsToTeam()
+    {
+        return $this->hasMany(Team::className(), ['id' => 'team_id'])
+            ->viaTable('request_add_to_team', ['user_id' => 'id']);
+    }
+
+    public function getRequest($team_id)
+    {
+        return RequestAddToTeam::find()->where(['user_id' => $this->id, 'team_id' => $team_id])->one();
     }
 }

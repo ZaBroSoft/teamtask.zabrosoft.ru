@@ -23,6 +23,7 @@ class SignUpForm extends Model
             [['username', 'email', 'password'], 'required', 'message' => 'Поле не может быть пустым'],
             ['email', 'email', 'message' => 'Не верный формат почты'],
             ['username', 'unique', 'targetClass' => 'app\models\User', 'message' => 'Логин уже занят'],
+            ['username', 'string', 'length' => [4, 20]],
             ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => 'Адрес уже зарегестрирован'],
         ];
     }
