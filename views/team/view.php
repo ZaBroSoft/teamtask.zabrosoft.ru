@@ -10,8 +10,8 @@ use yii\helpers\Url;
 <div class="row">
     <div class="col-md-2 padding-1">
         <?= $this->render('team_menu') ?>
-        <?= $team->isFounder() ? $this->render('team_manager', ['team' => $team]) : '';
-        ?>
+        <?= $team->isFounder() ? $this->render('team_manager', ['team' => $team]) : '';?>
+        <?= $team->isWorker() ? $this->render('team_worker', ['team' => $team]) : '';?>
     </div>
     <div class="col-md-10 padding-1">
 
@@ -53,12 +53,16 @@ use yii\helpers\Url;
                                      Участники
                                  </div>
                                  <div class="text-right">
-                                     <span class="badge"><?= $team->getUsers()->count() ?></span>
+                                     <span class="badge"><?= $team->getUsers()->count() - 1 ?></span>
                                  </div>
                              </div>
                              <div class="panel-body">
                                  <?php foreach ($team->users as $user): ?>
-
+                                    <?php
+                                        if ($team->user_id == $user->id){
+                                            continue;
+                                        }
+                                     ?>
                                     <div style="float: left">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                         <?= $user->username ?>
@@ -68,6 +72,11 @@ use yii\helpers\Url;
                                         <?php if ($user->id != Yii::$app->user->getId()): ?>
                                         <a href="#" title="Сообщение"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
                                         <?php endif; ?>
+                                        <?php if ($team->isFounder()): ?>
+                                            <a href="<?= Url::to(['excludeforteam', 'user_id'=>$user->id, 'team_id'=>$team->id]) ?>"
+                                               title="Исключить"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                                        <?php endif; ?>
+
                                     </div>
 
                                  <?php endforeach; ?>

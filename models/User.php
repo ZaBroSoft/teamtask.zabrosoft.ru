@@ -166,4 +166,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return RequestAddToTeam::find()->where(['user_id' => $this->id, 'team_id' => $team_id])->one();
     }
+
+    public function getUsernameById($id)
+    {
+        $user = User::findOne($id);
+        return $user->username;
+    }
 }

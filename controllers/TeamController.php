@@ -24,7 +24,8 @@ class TeamController extends \yii\web\Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'create', 'view', 'requesttoteam', 'requests',
-                            'requestreject', 'requestremove', 'requestaccept'],
+                            'requestreject', 'requestremove', 'requestaccept', 'leaveteam',
+                            'excludeforteam'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -207,4 +208,29 @@ class TeamController extends \yii\web\Controller
         return 'Error';
 
     }
+
+    public function actionLeaveteam($team_id)
+    {
+        $user = User::findOne(Yii::$app->user->getId());
+        $team = Team::findOne($team_id);
+
+        $user->unlink('teams', $team, true);
+
+        return $this->redirect(['index']);
+    }
+
+    public function actionExcludeforteam($user_id, $team_id)
+    {
+        $user = User::findOne($user_id);
+        $team = Team::findOne($team_id);
+
+        if (!$team->isFounder()){
+            return $this->redirect('site/error');
+        }
+
+        $user->unlink('teams', $team, true);
+
+        return $this->redirect(['view', 'team_id' => $team_id]);
+    }
+
 }

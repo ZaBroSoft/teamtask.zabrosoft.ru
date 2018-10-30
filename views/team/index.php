@@ -47,7 +47,9 @@ use yii\helpers\Url;
                                 <td>#<?= $team->id ?></td>
                                 <td>
                                     <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                    <?= $team->title ?>
+                                    <a href="<?= Url::to(['view', 'team_id'=>$team->id]) ?>">
+                                        <?= $team->title ?>
+                                    </a>
                                 </td>
                                 <td>
                                     <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -121,7 +123,9 @@ use yii\helpers\Url;
                             <td>#<?= $team->id ?></td>
                             <td>
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                <?= $team->title ?>
+                                <a href="<?= Url::to(['view', 'team_id'=>$team->id]) ?>">
+                                    <?= $team->title ?>
+                                </a>
                             </td>
                             <td>
                                 <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -198,7 +202,9 @@ use yii\helpers\Url;
                             </td>
                             <td>
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                <?= $team->title ?>
+                                <a href="<?= Url::to(['view', 'team_id'=>$team->id]) ?>">
+                                    <?= $team->title ?>
+                                </a>
                             </td>
                             <td>
                                 <?= $team->description ?>
@@ -249,7 +255,9 @@ use yii\helpers\Url;
                             <td>#<?= $team->id ?></td>
                             <td>
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                <?= $team->title ?>
+                                <a href="<?= Url::to(['view', 'team_id'=>$team->id]) ?>">
+                                    <?= $team->title ?>
+                                </a>
                             </td>
                             <td>
                                 <i class="fa fa-cogs" aria-hidden="true"></i>

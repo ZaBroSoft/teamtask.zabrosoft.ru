@@ -71,6 +71,19 @@ class Team extends \yii\db\ActiveRecord
         return Yii::$app->user->getId() == $this->user_id;
     }
 
+    public function isWorker()
+    {
+        if ($this->isFounder()){
+            return false;
+        }
+
+        if ($this->getUsers()->where(['id' => Yii::$app->user->getId()])->count() != 0){
+            return true;
+        }
+
+        return false;
+    }
+
     public function getUsersRequest()
     {
         return $this->hasMany(User::className(), ['id' => 'user_id'])
