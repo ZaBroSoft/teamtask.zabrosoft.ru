@@ -71,4 +71,16 @@ class RequestAddToTeam extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function setReject()
+    {
+        $this->result = RequestAddToTeam::RESULT_REJECTED;
+        $this->save();
+    }
+
+    public function setAccept()
+    {
+        $this->result = RequestAddToTeam::RESULT_ACCEPTED;
+        $this->save();
+    }
 }

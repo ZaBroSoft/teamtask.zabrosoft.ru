@@ -19,6 +19,56 @@ function add_request_add_to_team(team_id) {
     });
 }
 
+function setRequestRegected(team_id, user_id){
+    $.ajax({
+        url: '/team/requestreject',
+        type: 'post',
+        data: {'team_id': team_id, 'user_id': user_id},
+        success: function (data) {
+            if (data == 'OK'){
+                removeRequestByUser(user_id);
+            }
+        },
+        error: function () {
+
+        }
+    });
+}
+
+function removeRequest(team_id, user_id){
+    $.ajax({
+        url: '/team/requestremove',
+        type: 'post',
+        data: {'team_id': team_id, 'user_id': user_id},
+        success: function (data) {
+            if (data == 'OK'){
+                removeRequestByTeam(team_id)
+            }
+        },
+        error: function () {
+
+        }
+    });
+}
+
+function setRequestAccept(team_id, user_id){
+    $.ajax({
+        url: '/team/requestaccept',
+        type: 'post',
+        data: {'team_id': team_id, 'user_id': user_id},
+        success: function (data) {
+            if (data == 'OK'){
+                removeRequestByUser(user_id);
+            }
+        },
+        error: function () {
+
+        }
+    });
+}
+
+
+
 function addViewRequstToTeam(data) {
     var tbody = document.getElementById('list_requests');
     var tr = document.createElement('tr');
@@ -52,4 +102,16 @@ function addViewRequstToTeam(data) {
     tr.appendChild(td_user);
     tr.appendChild(td_remove);
     tbody.appendChild(tr);
+}
+
+function removeRequestByUser(user_id){
+    var request = $('#request_' + user_id);
+    request.detach();
+}
+
+function removeRequestByTeam(team_id){
+    var request = $('#request_' + team_id);
+    request.detach();
+
+    $("#btn_add_" + team_id).removeClass('disabled');
 }

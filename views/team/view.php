@@ -8,17 +8,22 @@ use yii\helpers\Url;
 ?>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 padding-1">
         <?= $this->render('team_menu') ?>
+        <?= $team->isFounder() ? $this->render('team_manager', ['team' => $team]) : '';
+        ?>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 padding-1">
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="float-left">
                     <h4><?= $team->title ?></h4>
                 </div>
                 <div class="text-right">
-                    <a href="<?= Url::to(['index']) ?>" class="btn btn-default"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                    <a href="<?= Url::to(['index']) ?>" class="btn btn-default">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </a>
                 </div>
             </div>
             <div class="panel-body">
@@ -60,7 +65,9 @@ use yii\helpers\Url;
                                     </div>
                                     <div class="text-right">
                                         <a href="#" title="Профиль"><i class="fa fa-vcard-o" aria-hidden="true"></i></a>
+                                        <?php if ($user->id != Yii::$app->user->getId()): ?>
                                         <a href="#" title="Сообщение"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                        <?php endif; ?>
                                     </div>
 
                                  <?php endforeach; ?>
@@ -88,5 +95,6 @@ use yii\helpers\Url;
 
             </div>
         </div>
+
     </div>
 </div>

@@ -65,4 +65,15 @@ class Team extends \yii\db\ActiveRecord
         return $this->hasMany(User::className(), ['id' => 'user_id'])
             ->viaTable('team_user', ['team_id' => 'id']);
     }
+
+    public function isFounder()
+    {
+        return Yii::$app->user->getId() == $this->user_id;
+    }
+
+    public function getUsersRequest()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])
+            ->viaTable('request_add_to_team', ['team_id' => 'id']);
+    }
 }

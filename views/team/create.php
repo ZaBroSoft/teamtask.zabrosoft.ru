@@ -7,10 +7,10 @@ use yii\captcha\Captcha;
 ?>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 padding-1">
         <?= $this->render('team_menu') ?>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 padding-1">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="text-center">

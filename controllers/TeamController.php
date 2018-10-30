@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\forms\NewTeamForm;
 use app\models\Team;
 use app\models\teams\RequestAddToTeam;
+use app\models\teams\TeamUser;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -22,7 +23,8 @@ class TeamController extends \yii\web\Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'view', 'requesttoteam'],
+                        'actions' => ['index', 'create', 'view', 'requesttoteam', 'requests',
+                            'requestreject', 'requestremove', 'requestaccept'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -117,5 +119,92 @@ class TeamController extends \yii\web\Controller
                 'user' => $team->user->username,
             ],
         ];
+    }
+
+    public function actionRequests($team_id)
+    {
+        $team = Team::findOne($team_id);
+
+        return $this->render('requests',[
+            'team' => $team
+        ]);
+    }
+
+    public function actionRequestaccept()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax){
+            $user = User::findOne(Yii::$app->request->post('user_id'));
+            $team = Team::findOne(Yii::$app->request->post('team_id'));
+
+            if ($user == null || $team == null ){
+                return 'Error';
+            }
+
+            if ($team->isFounder()){
+                $req = RequestAddToTeam::find()->where(['user_id' => $user->id, 'team_id' => $team->id])->one();
+                $req->setAccept();
+
+                $user->link('teams', $team);
+
+                return 'OK';
+            }
+            return 'Error';
+
+        }
+
+        return 'Error';
+    }
+
+    public function actionRequestreject()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax){
+            $user = User::findOne(Yii::$app->request->post('user_id'));
+            $team = Team::findOne(Yii::$app->request->post('team_id'));
+
+            if ($user == null || $team == null ){
+                return 'Error';
+            }
+
+            if ($team->isFounder()){
+                $req = RequestAddToTeam::find()->where(['user_id' => $user->id, 'team_id' => $team->id])->one();
+                $req->setReject();
+                return 'OK';
+            }
+            return 'Error';
+
+        }
+
+        return 'Error';
+
+    }
+
+    public function actionRequestremove()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax){
+            $user = User::findOne(Yii::$app->request->post('user_id'));
+            $team = Team::findOne(Yii::$app->request->post('team_id'));
+
+            if ($user == null || $team == null ) {
+                return 'Error';
+            }
+
+            $req = RequestAddToTeam::find()->where(['user_id' => $user->id, 'team_id' => $team->id])->one();
+            if ($req->user->id == Yii::$app->user->getId()){
+                $req->delete();
+                return 'OK';
+            }
+
+            return 'Error';
+
+        }
+
+        return 'Error';
+
     }
 }
