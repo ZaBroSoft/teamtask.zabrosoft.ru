@@ -29,27 +29,35 @@ AppAsset::register($this);
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-right">
+        <div class="col-md-12 text-right padding-1">
             <div class="btn-group">
-                <a href="<?= \yii\helpers\Url::to(['task/']) ?>" class="btn btn-success">Задачи</a>
-                <a href="<?= \yii\helpers\Url::to(['project/']) ?>" class="btn btn-success">Проекты</a>
-                <a href="<?= \yii\helpers\Url::to(['team/']) ?>" class="btn btn-success">Команды</a>
+                <a href="<?= \yii\helpers\Url::to(['task/']) ?>" class="btn btn-default">
+                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                    Задачи
+                </a>
+                <a href="<?= \yii\helpers\Url::to(['project/']) ?>" class="btn btn-default">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                    Проекты
+                </a>
+                <a href="<?= \yii\helpers\Url::to(['team/']) ?>" class="btn btn-default">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    Команды
+                </a>
             </div>
             <div class="btn-group">
-                <a href="<?= \yii\helpers\Url::to(['profile/']) ?>" class="btn btn-primary">Профиль</a>
-                <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="btn btn-danger">Выйти</a>
+                <a href="<?= \yii\helpers\Url::to(['profile/']) ?>" class="btn btn-default">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    Профиль
+                </a>
+                <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="btn btn-default">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Выйти
+                </a>
             </div>
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-10">
-            <?= $content ?>
-        </div>
-    </div>
+    <?= $content ?>
 </div>
 
 <?php $this->endBody() ?>
