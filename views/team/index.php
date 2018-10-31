@@ -7,7 +7,7 @@ use yii\helpers\Url;
 ?>
 <div class="row">
     <div class="col-md-2 padding-1">
-        <?= $this->render('team_menu') ?>
+        <?= $this->render('team_menu', ['user'=> $user]) ?>
     </div>
 
     <div class="col-md-10 padding-1">

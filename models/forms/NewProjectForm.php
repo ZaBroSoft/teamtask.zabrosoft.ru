@@ -8,16 +8,14 @@
 
 namespace app\models\forms;
 
-use app\models\Team;
-use app\models\User;
 use Yii;
 use yii\base\Model;
 
-class NewTeamForm extends Model
+class NewProjectForm extends Model
 {
     public $title;
     public $description;
-    public $content;
+    public $team;
 
     public function rules()
     {
@@ -27,7 +25,7 @@ class NewTeamForm extends Model
             ['title', 'string', 'length' => [3, 30]],
             ['description', 'string', 'max' => 255],
             ['title', 'trim'],
-            ['content', 'trim'],
+            ['team', 'integer'],
         ];
     }
 
@@ -35,8 +33,8 @@ class NewTeamForm extends Model
     {
         return [
             'title' => 'Название',
-            'description' => 'Краткое описание',
-            'content' => 'Описание',
+            'description' => 'Описание',
+            'team' => 'Команда'
         ];
     }
 
@@ -45,25 +43,6 @@ class NewTeamForm extends Model
         if (!$this->validate()) {
             return null;
         }
-
-        $user = User::findOne(Yii::$app->user->getId());
-
-        if  ($user->getUserTeams()->count() >= 1){
-            return null;
-        }
-
-        $team = new Team();
-        $team->title = $this->title;
-        $team->description = $this->description;
-        $team->content = $this->content;
-        $team->user_id = $user->id;
-        $team->date_at = date('Y-m-d');
-
-        $team->save();
-
-        $user->link('teams', $team);
-
-        return $team;
     }
 
 }

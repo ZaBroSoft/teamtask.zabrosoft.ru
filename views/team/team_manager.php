@@ -15,7 +15,7 @@ foreach ($users as $user){
 
     <a href="<?= \yii\helpers\Url::to(['requests', 'team_id' => $team->id]) ?>" class="list-group-item">
         <div class="<?= $request_count > 0 ? 'float-left' : '' ?>">
-            <i class="fa fa-briefcase" aria-hidden="true"></i>
+            <i class="fa fa-users" aria-hidden="true"></i>
             Заявки
         </div>
         <div class="text-right">
@@ -25,6 +25,20 @@ foreach ($users as $user){
                     ''
             ?>
         </div>
-    </a> <!-- Заявки -->
+    </a>
+
+    <a href="<?= \yii\helpers\Url::to(['project/create', 'team_id'=>$team->id]) ?>" class="list-group-item">
+        <div class="<?= $request_count > 0 ? 'float-left' : '' ?>">
+            <i class="fa fa-gear" aria-hidden="true"></i>
+            Создать проект
+        </div>
+        <div class="text-right">
+            <?=
+            $request_count > 0 ?
+                '<span class="badge">' . $request_count . '</span>':
+                ''
+            ?>
+        </div>
+    </a><!-- Заявки -->
 
 </div>
